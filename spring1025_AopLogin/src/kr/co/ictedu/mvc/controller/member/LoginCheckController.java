@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.ictedu.mvc.dao.MemberDaoInter;
-import kr.co.ictedu.mvc.dto.MemberVo;
+import kr.co.ictedu.mvc.dto.MemberVO;
 
 @Controller
 @RequestMapping("/login")
@@ -26,12 +26,12 @@ public class LoginCheckController {
 	}
 	// login process : 인증, 세션 저장
 	@PostMapping("/loginProcess")
-	public ModelAndView loginProcess(HttpSession session, HttpServletRequest request, MemberVo vo, 
+	public ModelAndView loginfProcess(HttpSession session, HttpServletRequest request, MemberVO vo, 
 			@RequestHeader("User-Agent") String userAgent) {
 		ModelAndView mav = new ModelAndView("redirect:/main");
-		System.out.println("id : " + vo.getId());
-		System.out.println("pwd : "+ vo.getPwd());
-		MemberVo dto = memberDaoInter.loginCheck(vo);
+//		System.out.println("id : " + vo.getId());
+//		System.out.println("pwd : "+ vo.getPwd());
+		MemberVO dto = memberDaoInter.loginCheck(vo);
 		if(dto == null) {
 			mav.setViewName("error/paramException");
 			mav.addObject("emsg", "fail to login");

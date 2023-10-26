@@ -23,7 +23,7 @@ import kr.co.ictedu.mvc.dto.BoardVO;
 import kr.co.ictedu.mvc.dto.PageVO;
 
 @Controller
-@RequestMapping("/upboard")
+@RequestMapping("/board")
 public class UploadDemoController {
 	
 	@Autowired

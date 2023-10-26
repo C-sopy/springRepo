@@ -39,7 +39,7 @@
 				</tr>
 			</thead>
 			<tbody id="target">
-
+				
 			</tbody>
 			<tfoot>
 				<%-- page¿µ¿ª --%>
@@ -121,9 +121,29 @@ window.onload = function() {
 			if(xhr.status === 200){
 				let res = xhr.responseText;
 				//console.log("res=>"+res);
+				 $('#target').empty();
+		            let data= JSON.parse(xhr.responseText);
+		            addData(data);
+
 			}
 		}
 	}
+	
+	  function addData(data) {
+	      data.forEach(item => {
+	         var tr=$('<tr>');
+	         tr.append($('<td>').text(item.num));
+	         tr.append($('<td>').text(item.title));
+	         tr.append($('<td>').text(item.writer));
+	         tr.append($('<td>').text(item.reip));
+	         tr.append($('<td>').text(item.bdate));
+	         
+	         $('#target').append(tr);
+	      });
+	      
+	   }
+
+	
 	function res2(){
 		if(xhr.readyState === 4){
 			if(xhr.status === 200){

@@ -1,6 +1,6 @@
 package kr.co.ictedu.mvc.dto;
 
-public class MemberVo {
+public class MemberVO {
 	private int num ;
 	private String id ;
 	private String pwd; 

@@ -7,7 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.co.ictedu.mvc.dto.MemberVo;
+import kr.co.ictedu.mvc.dto.MemberVO;
+import kr.co.ictedu.mvc.dto.MyLoginLoggerVO;
 
 @Repository
 public class MemberDao implements MemberDaoInter {
@@ -15,7 +16,7 @@ public class MemberDao implements MemberDaoInter {
 	private SqlSessionTemplate ss;
 
 	@Override
-	public void add(MemberVo vo) {
+	public void add(MemberVO vo) {
 		ss.insert("mem.add", vo);
 	}
 
@@ -26,23 +27,33 @@ public class MemberDao implements MemberDaoInter {
 
 	//<select id="loginchk" parameterType="mvo" resultType="mvo">
 	@Override
-	public MemberVo loginCheck(MemberVo v) {
+	public MemberVO loginCheck(MemberVO v) {
 		return ss.selectOne("mem.loginchk", v);
 	}
 
 	@Override
-	public MemberVo myPage(String id) {
+	public MemberVO myPage(String id) {
 		return ss.selectOne("mem.mypage", id);
 	}
 
 	@Override
-	public List<MemberVo> memList(Map<String, String> map) {
+	public List<MemberVO> memList(Map<String, String> map) {
 		return null;
 	}
 
 	@Override
 	public int getcnt() {
 		return 0;
+	}
+
+	@Override
+	public void addLoginLogging(MyLoginLoggerVO vo) {
+		ss.insert("mem.logger_in", vo);
+	}
+
+	@Override
+	public List<MyLoginLoggerVO> logList(String idn) {		
+		return ss.selectList("mem.log_list",idn);
 	}
 
 }

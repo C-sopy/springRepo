@@ -9,6 +9,39 @@
 		<li class="border-top my-3"></li>
 	</ul>
 	<div class="container">
+		<h3>My login log list</h3>
+		<table class="table table-hover">
+				<thead>
+					<tr class="table-secondary">
+						<th scope="col">번호</th>
+						<c:if test="${sessionScope.sessionID == 'admin'}">
+						<th scope="col">ID</th>
+						</c:if>						
+						<th scope="col">IP</th>
+						<th scope="col">기기</th>
+						<th scope="col">status</th>
+						<th scope="col">날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+				<%-- 반복시작  --%>
+				<c:forEach var="list" items="${list}">
+					<tr>
+						<td scope="col">${list.num}</td>
+						<c:if test="${sessionScope.sessionID == 'admin'}">
+						<td scope="col">${list.idn}</td>
+						</c:if>
+						<td scope="col">${list.reip}</td>
+						<td scope="col">${list.uagent}</td>
+						<td scope="col">${list.status}</td>
+						<td scope="col">${list.logtime}</td>
+					</tr>
+				</c:forEach>
+				<%-- 반복끝  --%>	
+				</tbody>
+			</table>
+	</div>
+	<div class="container">
 		<h3>시각화 영역 </h3>
 		<div id="chart1"></div>
 		
@@ -43,6 +76,10 @@ $.ajax({
 	error : function(e) {
 		console.log("error:" + e);
 	}
+})
+
+$.ajax({
+	url: "${cPath}/member/myloglist"
 })
 
 

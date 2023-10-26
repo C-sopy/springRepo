@@ -15,4 +15,21 @@
   	<select id="mypage" parameterType="String" resultType="mvo">
   		select num, id, name, tel, email from members where id=#{id}
   	</select>
+  	<insert id="logger_in" parameterType="lvo">
+  		insert into myloginlog values(myloginlog_seq.nextval, #{idn}, #{reip}, #{uagent}, #{status}, sysdate)
+  	</insert>
+  	<select id="log_list" parameterType="String" resultType="lvo">
+  		select * from myloginlog 
+	  		<choose>
+				<when test="idn == 'admin'">
+				<!-- "admin"인 경우 아무런 조건 없이 모든 로그를 출력 -->
+				
+				</when>
+				<otherwise>
+				WHERE idn = #{idn}
+				<!-- 다른 사용자인 경우 해당 사용자의 로그만 출력 -->
+				</otherwise>
+		</choose>	
+		order by num desc
+  	</select>
  </mapper>

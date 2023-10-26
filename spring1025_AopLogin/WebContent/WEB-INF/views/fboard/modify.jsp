@@ -44,7 +44,7 @@
 
 			<button class="custom-btn btn-3" type="submit"><span>수정</span></button>
             <button class="custom-btn btn-danger btn-3" 
-            type="button" onclick="location='tboardList'"><span>리스트</span></button>
+            type="button" onclick="location='fboardList'"><span>리스트</span></button>
 			</div>
 		</form>
 		</div>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<aop:aspectj-autoproxy />
+	<context:component-scan
+		base-package="kr.co.ictedu.mvc" />
+
+	<!-- <bean id="" class="kr.co.ictedu.mvc.advice.TodayAdvice"/> 요거를 안하겠다는 
+		것 -->
+
+	<mvc:annotation-driven />
+	<mvc:resources location="/resources/"
+		mapping="/resources/**" />
+	<!-- ModelAndView => View의 타입 => viewResolver설정 InternalResourceViewResolver 
+		/WEB-INF/views/[hello].jsp -->
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- DataSource : JNDI -->
+	<bean id="dataSource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/myora"></property>
+	</bean>
+	<!-- MyBatis SqlSessionFactoryBean에서 기존의 config.xml, mapper.xml들도 포함해서 위임받은 
+		설정을 한다. -->
+	<bean id="factoryBean"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:config/config.xml" />
+		<property name="mapperLocations"
+			value="classpath*:mapper/*.xml" />
+	</bean>
+	<!-- Spring에서 제공하는 SqlSessionTemplate DAO에서 ss를 DI해야 함********* -->
+	<bean id="ss" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="factoryBean" />
+	</bean>
+	
+	<!-- CommonsMultipartResolver 를 등록 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+		
+</beans>
