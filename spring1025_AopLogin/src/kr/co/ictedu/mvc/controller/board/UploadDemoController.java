@@ -33,7 +33,7 @@ public class UploadDemoController {
 	
 	@GetMapping("/upform")
 	public String upform() {
-		return "updemo/upform" ;
+		return "/updemo/upform" ;
 	}
 	// uploadpro
 	// @postMapping("/uploadpro")
@@ -177,7 +177,7 @@ public class UploadDemoController {
 		model.addAttribute("page", pageVO); // nowPage, pagePerBlock, totalPage
 		model.addAttribute("list", list);
 		
-		return "updemo/uplist" ;
+		return "/updemo/uplist" ;
 	}
 	
 	@GetMapping("/boardDetail")
@@ -251,14 +251,14 @@ public class UploadDemoController {
 		System.out.println("4");
 		m.addAttribute("num", num);
 		System.out.println("5");
-		return "updemo/updetail" ;
+		return "/updemo/updetail" ;
 	}
 	
 	@GetMapping("/upboardEdit")
 	public String upboardEdit(Model m, int num) {
 		BoardVO b = upBoardDaoInter.upboardDetail(num);
 		m.addAttribute("b", b);
-		return "updemo/upedit" ;
+		return "/updemo/upedit" ;
 	}
 
 	@PostMapping("/upboardUpdate")

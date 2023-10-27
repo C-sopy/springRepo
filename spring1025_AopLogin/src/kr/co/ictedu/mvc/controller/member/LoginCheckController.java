@@ -45,7 +45,8 @@ public class LoginCheckController {
 	
 	// logout : session delete
 	@GetMapping("/logout")
-	public ModelAndView loginfoutProcess(HttpSession session, HttpServletRequest request) {
+	public ModelAndView loginfoutProcess(HttpSession session, HttpServletRequest request, 
+									@RequestHeader("User-Agent") String userAgent) {
 		ModelAndView mav = new ModelAndView();
 		session.removeAttribute("sessionName");
 		session.removeAttribute("sessionID");

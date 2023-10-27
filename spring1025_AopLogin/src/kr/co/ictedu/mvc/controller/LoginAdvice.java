@@ -73,9 +73,13 @@ public class LoginAdvice {
 			HttpSession session = (HttpSession) fd[0];
 			String uid = (String) session.getAttribute("sessionID");
 			String reip = ((HttpServletRequest)fd[1]).getRemoteAddr();
+			userAgent = (String) fd[2];
+			resAgent = patternUserAgent(userAgent);
+			
 			System.out.println("uid : " + uid);
 			System.out.println("reip : " + reip);
 			System.out.println("user Agent : " + userAgent);
+			System.out.println(resAgent);
 			System.out.println("****************");
 			MyLoginLoggerVO lvo = new MyLoginLoggerVO();
 			lvo.setIdn(uid);

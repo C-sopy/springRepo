@@ -183,26 +183,30 @@ select.btn-mini {
 <body>
 	<header class="text-white text-center">
 		<div class="d-flex flex-row-reverse mybgColor">
-			<div class="p-2 bg-info">
-				<a href="#" class="nav-link text-white" id="item1">Flex item 1</a>
-			</div>
+			
 			<%-- avant login --%>
 			<c:choose>
 				<c:when test="${sessionScope.sessionID == null}">
 					<div class="p-2 bg-warning">
-						<a href="${cPath}/login/loginForm" class="nav-link text-white" id="item2">로그인</a>
+						<a href="${cPath}/login/loginForm" class="nav-link text-white" id="item1">로그인</a>
 					</div>
 					<div class="p-2 bg-primary">
-						<a href="${cPath}/member/memberForm" class="nav-link text-white" id="item3">회원가입</a>
+						<a href="${cPath}/member/memberForm" class="nav-link text-white" id="item2">회원가입</a>
 					</div>
-					</c:when>
+					<div class="p-2 bg-info">
+						<a href="#" class="nav-link text-white" id="item3">item</a>
+					</div>
+				</c:when>
 					<%-- apres login --%>
-					<c:when test="${sessionScope.sessionID != null}">
+				<c:when test="${sessionScope.sessionID != null}">
 					<div class="p-2 bg-warning">
-						<a href="${cPath}/login/logout" class="nav-link text-white" id="item2">로그아웃</a>
+						<a href="${cPath}/login/logout" class="nav-link text-white" id="item1">로그아웃</a>
 					</div>
 					<div class="p-2 bg-primary">
-						<a href="${cPath}/member/mypage" class="nav-link text-white" id="item3">마이페이지</a>
+						<a href="${cPath}/member/mypage" class="nav-link text-white" id="item2">마이페이지</a>
+					</div>
+					<div class="p-2 bg-info">
+						<a href="${cPath}/chatdemo/chat" class="nav-link text-white" id="item3">Chatdemo</a>
 					</div>
 				</c:when>
 			</c:choose>
@@ -274,7 +278,7 @@ select.btn-mini {
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="${cPath}/fboard/fboardList">FreeBoard</a></li>
 						<li><a class="dropdown-item" href="${cPath}/board/ajaxBoard">AjaxBoard</a></li>
-						<li><a class="dropdown-item" href="${cPath}/upboard/uplist">uploadBoard</a></li>
+						<li><a class="dropdown-item" href="${cPath}/board/uplist">uploadBoard</a></li>
 					</ul>
 				</li>
 				<li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
