@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="mem">
+  	<insert id="add" parameterType="mvo">
+  		insert into members values(members_seq.nextval, #{id}, #{pwd}, #{name}, #{email}, #{tel}, #{reip}, sysdate)
+  	</insert>
+  	<select id="idcheck" parameterType="String" resultType="int">
+  		select count(*) cnt from members where id=#{id}
+  	</select>
+  	<select id="loginchk" parameterType="mvo" resultType="mvo">
+  		select id, name from members where id=#{id} and pwd=#{pwd}
+  	</select>
+  	<select id="mypage" parameterType="String" resultType="mvo">
+  		select num, id, name, tel, email from members where id=#{id}
+  	</select>
+  	<insert id="logger_in" parameterType="lvo">
+  		insert into myloginlog values(myloginlog_seq.nextval, #{idn}, #{reip}, #{uagent}, #{status}, sysdate)
+  	</insert>
+  	<select id="log_list" parameterType="String" resultType="lvo">
+  		select * from myloginlog 
+	  		<choose>
+				<when test="idn == 'admin'">
+				<!-- "admin"인 경우 아무런 조건 없이 모든 로그를 출력 -->
+				
+				</when>
+				<otherwise>
+				WHERE idn = #{idn}
+				<!-- 다른 사용자인 경우 해당 사용자의 로그만 출력 -->
+				</otherwise>
+		</choose>	
+		order by num desc
+  	</select>
+ </mapper>

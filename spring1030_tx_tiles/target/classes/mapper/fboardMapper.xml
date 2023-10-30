@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="fb">
+ 	<insert id="add" parameterType="fvo">
+ 		insert into fboard values(fboard_seq.nextval,#{subject},#{writer},#{content},#{reip},sysdate,0)
+ 	</insert>
+ 	<select id="list" resultType="fvo">
+ 		select * from fboard order by 1 desc
+ 	</select>
+ 	<update id="hit" parameterType="int"> <!-- 외부에서 hit값을 정수 타입으로 받아오겠다 -->
+ 		update fboard set hit=hit+1 where num=#{num}
+ 	</update>
+ 	<delete id="del" parameterType="int"> <!-- 얘도 외부에서 파라미터 값 가져오니까 뭘로 가져오는지 써주기 -->
+ 		delete from fboard where num=#{num}
+ 	</delete>
+ 	<update id="update" parameterType="fvo">
+ 		update fboard set subject=#{subject},writer=#{writer},content=#{content},reip=#{reip} where num=#{num}
+ 	</update>
+ 	<select id="detail" parameterType="int" resultType="fvo"> <!-- 파라미터로 num값 가져오고 resultType으로 반환 -->
+ 		select * from fboard where num=#{num}
+ 	</select>
+ 	
+ </mapper>

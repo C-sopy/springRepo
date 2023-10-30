@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="upboard">
+ 	<insert id="add" parameterType="upvo">
+ 		insert into upboard values(upboard_seq.nextval, #{title}, #{writer}, #{content}, #{imgn}, 0, #{reip}, sysdate )
+ 	</insert>
+ 	
+ 	<!-- Page process 1 -->
+ 	<select id="list" resultType="upvo" parameterType="map">
+ 	SELECT num,	
+	<choose>
+		<when test="searchValue != null and searchType != null">
+			<choose>
+				<when test="searchType == 1">
+				<![CDATA[replace(title, #{searchValue}, '<span class="searchCls">${searchValue}</span>') title, writer,]]>					
+				</when>
+				<when test="searchType == 2">
+				<![CDATA[title, replace(writer, #{searchValue}, '<span class="searchCls">${searchValue}</span>') writer,]]>					
+				</when>
+				<when test="searchType == 3"> title, writer,</when>
+				<otherwise>
+					title, writer,
+				</otherwise>					
+			</choose>
+		</when>
+		<otherwise>
+				title, writer,
+		</otherwise>
+	</choose>
+	imgn,hit,reip,bdate, cnt
+	FROM (SELECT num, title, writer, imgn, hit, reip, bdate,
+	(SELECT COUNT(*) FROM upboard_comm WHERE upboard_comm.ucode = upboard.num) AS
+	cnt,
+	ROW_NUMBER() OVER (ORDER BY num desc) AS row_num
+	FROM UPBOARD		
+		<if test="searchValue != null and searchType != null">
+			<where>
+				<choose>
+					<when test="searchType == 1">
+						title like '%'||#{searchValue}||'%' 
+					</when>
+					<when test="searchType == 2">
+						writer like '%'||#{searchValue}||'%' 
+					</when>
+					<when test="searchType == 3">
+						content like '%'||#{searchValue}||'%' 
+					</when>
+				</choose>
+			</where>
+		</if>			
+	) numbered_rows
+	WHERE row_num BETWEEN #{begin} AND #{end}
+ 	</select>
+ 	<select id="totalCount" resultType="int" parameterType="map">
+		select count(*) cnt from upboard
+		<if test="searchValue != null and searchType != null">
+			<where>
+				<choose>
+					<when test="searchType == 1">
+						title like '%'||#{searchValue}||'%'
+					</when>
+					<when test="searchType == 2">
+						writer like '%'||#{searchValue}||'%'
+					</when>
+					<when test="searchType == 3">
+						content like '%'||#{searchValue}||'%'
+					</when>
+				</choose>
+			</where>
+		</if>
+	</select>
+ 	<select id="detail" parameterType="int" resultType="upvo">
+ 		select * from upboard where num = #{num}
+ 	</select>
+ 	<update id="hit">
+ 		update upboard set hit=hit+1 where num=#{num}
+ 	</update>
+ 	<update id="update" parameterType="upvo">
+ 		update upboard set title=#{title},writer=#{writer},content=#{content}, imgn=#{imgn} where num=#{num}
+ 	</update>
+ 	<delete id="delete" parameterType="int">
+ 		delete from upboard where num=#{num}
+ 	</delete>
+ 	<insert id="addComm" parameterType="upcommvo">
+ 		insert into upboard_comm values(upboard_comm_seq.nextval, #{ucode}, #{uwriter}, #{ucontent}, #{reip}, sysdate)
+ 	</insert>
+ 	<select id="commCount" resultType="int" parameterType="map">
+ 		select count(*) cnt from upboard_comm where ucode=#{num}
+ 	</select>
+ 	<select id="commList" resultType="upcommvo" parameterType="map" >
+		SELECT * FROM (
+		SELECT ROWNUM r_num, a.* FROM (
+		SELECT * FROM upboard_comm where ucode = #{num}
+		ORDER BY 1 DESC
+		) a
+		) WHERE r_num BETWEEN #{begin} AND #{end}
+ 	</select>
+ </mapper>
