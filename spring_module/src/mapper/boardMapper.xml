@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<insert id="add" parameterType="bvo">
+		insert into board values (board_seq.nextVal, #{title}, #{writer}, 
+									#{content}, 0, #{reip}, sysdate)
+	</insert>
+	<insert id="addimg" parameterType="java.util.List">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select board_seq.currVal from dual
+		</selectKey>
+		<foreach collection="list" item="e" separator=" "
+			open="insert all" close="select * from dual">
+			into board_image values(#{id}, #{e.iname}, #{e.reip}, sysdate, #{e.isThumb})
+		</foreach>
+	</insert>
+	<insert id="addvideo" parameterType="bvvo">
+		INSERT INTO board_video VALUES (board_video_seq.nextVal, board_seq.currVal,
+		#{vname}, #{reip}, sysdate)
+	</insert>
+	<insert id="cadd" parameterType="bcvo">
+		insert into board_comm
+		values(board_comm_seq.nextVal, #{cnum}, #{writer},
+		#{content}, #{reip},
+		sysdate)
+	</insert>
+</mapper>
