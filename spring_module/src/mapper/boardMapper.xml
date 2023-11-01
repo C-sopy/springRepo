@@ -45,7 +45,7 @@
 				b.title title, b.writer writer, b.bdate bdate
 				from board b join board_image i on b.num = i.inum
              	join board_video v on b.num = v.vnum 
-				where b.num = #{num} ;
+				where b.num = #{num} 
 	</select>
 	
 </mapper>
