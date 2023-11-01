@@ -1,6 +1,7 @@
 package kr.co.ictedu.mvc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class BoardDao implements BoardDaoInter{
 	@Override
 	public void boardAddVideo(BoardVideoVO bvvo) {
 		ss.insert("board.addvideo", bvvo);
+	}
+
+	@Override
+	public List<BoardVO> boardList(Map<String, String> map) {
+		return null;
 	}
 
 	

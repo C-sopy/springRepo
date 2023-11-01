@@ -26,4 +26,26 @@
 		#{content}, #{reip},
 		sysdate)
 	</insert>
+	
+	<select id="list" parameterType="map" resultType="bvo">
+		
+	</select>
+	
+	<resultMap type="bvo" id="boardview">
+		<id property="num" column="num" javaType="int"/>
+		<result property="title" column="title"/>
+		<result property="writer" column="writer"/>
+		<result property="bdate" column="bdate"/>
+		<collection property="imageName" javaType="java.util.List" >
+			<result property="iname" column="iname"/>
+		</collection>
+	</resultMap>
+	<select id="detail" parameterType="int" resultMap="boardview">
+		select b.num num, i.iname iname, v.vname vname, 
+				b.title title, b.writer writer, b.bdate bdate
+				from board b join board_image i on b.num = i.inum
+             	join board_video v on b.num = v.vnum 
+				where b.num = #{num} ;
+	</select>
+	
 </mapper>
