@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<insert id="add" parameterType="bvo">
+		insert into board values
+		(board_seq.nextVal, #{title}, #{writer},
+		#{content},#{imgn}, #{vidn}, 0, #{reip},
+		sysdate )
+	</insert>
+
+	<select id="list" resultType="bvo" parameterType="map">
+		SELECT num,
+		<choose>
+			<when test="searchValue != null and searchType != null">
+				<choose>
+					<when test="searchType == 1">
+				<![CDATA[ 
+		     	 replace(title,#{searchValue},'<span class="searchCls">${searchValue}</span>') title,writer,
+		       ]]></when>
+					<when test="searchType == 2">
+				<![CDATA[ 
+		      title,replace(writer,#{searchValue},'<span class="searchCls">${searchValue}</span>') writer,
+		       ]]></when>
+					<when test="searchType == 3">title,writer,</when>
+					<otherwise>
+						title,writer,
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				title,writer,
+			</otherwise>
+		</choose>
+		content, imgn, vidn, hit, reip, bdate, cnt FROM
+		(SELECT num, title,
+		writer, content, imgn, vidn, hit, reip, bdate,
+		(select count(*) from
+		board_comm
+		where board.num = board_comm.cnum) AS cnt,
+		ROW_NUMBER()
+		OVER
+		(ORDER BY num
+		desc) AS row_num from board
+		<if test="searchValue != null and searchType != null">
+			<where>
+				<choose>
+					<when test="searchType == 1">
+						title like '%'|| #{searchValue} ||'%'
+					</when>
+					<when test="searchType == 2">
+						writer like '%'|| #{searchValue} ||'%'
+					</when>
+					<when test="searchType == 3">
+						content like '%'|| #{searchValue} ||'%'
+					</when>
+				</choose>
+			</where>
+		</if>
+		) numbered_rows
+		WHERE row_num BETWEEN #{begin} AND #{end}
+	</select>
+
+	<select id="totalCount" resultType="int" parameterType="map">
+		select count(*) cnt from board
+		<if test="searchValue != null and searchType != null">
+			<where>
+				<choose>
+					<when test="searchType == 1">
+						title like '%'||#{searchValue}||'%'
+					</when>
+					<when test="searchType == 2">
+						writer like '%'||#{searchValue}||'%'
+					</when>
+					<when test="searchType == 3">
+						content like '%'||#{searchValue}||'%'
+					</when>
+				</choose>
+			</where>
+		</if>
+	</select>
+	<select id="detail" parameterType="int" resultType="bvo">
+		select * from board where num = #{num}
+	</select>
+	<delete id="delete" parameterType="int">
+		DELETE from board where num = #{num}
+	</delete>
+	
+	<update id="update" parameterType="bvo">
+		update board set title=#{title}, content=#{content}, imgn=#{imgn}, vidn=#{vidn} where num = #{num}
+	</update>
+	
+	<!-- comment -->
+	<insert id="addComm" parameterType="bcvo">
+		insert into board_comm values(board_comm_seq.nextVal, #{cnum} , #{cwriter}, #{ccontent}, #{reip}, sysdate)
+	</insert>
+	
+	<update id="updateHit" parameterType="int">
+		update board set hit = hit + 1 where num = #{num}
+	</update>
+	<select id="listComm" parameterType="map" resultType="bcvo">
+		SELECT * FROM (
+		SELECT ROWNUM r_num, a.* FROM (
+		SELECT * FROM board_comm where cnum = #{num}
+		ORDER BY 1 DESC
+		) a
+		) WHERE r_num BETWEEN #{begin} AND #{end}
+	</select>
+	<select id="getCommTotal" resultType="int" parameterType="map">
+		select count(*) cnt from board_comm where cnum=#{num}
+	</select>
+	
+</mapper>
