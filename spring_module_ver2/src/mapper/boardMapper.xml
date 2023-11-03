@@ -80,9 +80,11 @@
 			</where>
 		</if>
 	</select>
+	
 	<select id="detail" parameterType="int" resultType="bvo">
 		select * from board where num = #{num}
 	</select>
+	
 	<delete id="delete" parameterType="int">
 		DELETE from board where num = #{num}
 	</delete>
@@ -91,14 +93,15 @@
 		update board set title=#{title}, content=#{content}, imgn=#{imgn}, vidn=#{vidn} where num = #{num}
 	</update>
 	
+	<update id="updateHit" parameterType="int">
+		update board set hit = hit + 1 where num = #{num}
+	</update>	
+	
 	<!-- comment -->
 	<insert id="addComm" parameterType="bcvo">
 		insert into board_comm values(board_comm_seq.nextVal, #{cnum} , #{cwriter}, #{ccontent}, #{reip}, sysdate)
 	</insert>
-	
-	<update id="updateHit" parameterType="int">
-		update board set hit = hit + 1 where num = #{num}
-	</update>
+
 	<select id="listComm" parameterType="map" resultType="bcvo">
 		SELECT * FROM (
 		SELECT ROWNUM r_num, a.* FROM (
@@ -107,8 +110,8 @@
 		) a
 		) WHERE r_num BETWEEN #{begin} AND #{end}
 	</select>
+	
 	<select id="getCommTotal" resultType="int" parameterType="map">
 		select count(*) cnt from board_comm where cnum=#{num}
 	</select>
-	
 </mapper>

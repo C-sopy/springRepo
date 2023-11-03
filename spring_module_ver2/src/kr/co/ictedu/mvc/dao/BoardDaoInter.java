@@ -13,7 +13,7 @@ public interface BoardDaoInter {
 	public BoardVO boardDetail(int num);
 	public void boardDelete(int num);
 	
-	//update
+	// update
 	public void boardUpdate(BoardVO bvo);
 	public void hitUpdate(int num);
 

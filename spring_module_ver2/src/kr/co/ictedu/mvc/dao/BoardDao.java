@@ -18,7 +18,6 @@ public class BoardDao implements BoardDaoInter{
 	@Override
 	public void boardAdd(BoardVO bvo) {
 		ss.insert("board.add", bvo);
-		
 	}
 
 	@Override
@@ -50,17 +49,16 @@ public class BoardDao implements BoardDaoInter{
 	}
 
 	@Override
-	public void commAdd(BoardCommVO bcvo) {
-		ss.insert("board.addComm", bcvo);
-		
-	}
-
-	@Override
 	public void hitUpdate(int num) {
 		ss.update("board.updateHit",num);
-		
 	}
 
+	// comment
+	@Override
+	public void commAdd(BoardCommVO bcvo) {
+		ss.insert("board.addComm", bcvo);
+	}
+	
 	@Override
 	public List<BoardCommVO> commList(Map<String, String> map) {
 		return ss.selectList("board.listComm", map);

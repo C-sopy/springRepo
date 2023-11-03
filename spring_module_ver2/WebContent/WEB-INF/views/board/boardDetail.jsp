@@ -155,7 +155,7 @@
                                 '<td>' + data.commList[i].cwriter + '</td>' +
                                 '<td>' + data.commList[i].ccontent + '</td>' +
                                 '<td>' + data.commList[i].reip + '</td>' +
-                                '<td>' + data.commList[i].cdate + '</td>' +
+                                '<td>' + data.commList[i].regdate + '</td>' +
                                 '</tr>';
                             // Append the new row to your table
                             $('#comm').append(newRow);

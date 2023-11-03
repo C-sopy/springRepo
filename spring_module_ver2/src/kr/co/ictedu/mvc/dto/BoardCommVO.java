@@ -7,6 +7,8 @@ public class BoardCommVO {
 	private String ccontent;
 	private String reip;
 	private String regdate;
+	
+	
 
 	public int getNum() {
 		return num;

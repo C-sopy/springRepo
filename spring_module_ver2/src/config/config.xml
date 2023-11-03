@@ -6,6 +6,5 @@
 	<typeAliases>
 		<typeAlias type="kr.co.ictedu.mvc.dto.BoardVO" alias="bvo" />
 		<typeAlias type="kr.co.ictedu.mvc.dto.BoardCommVO" alias="bcvo" />
-
 	</typeAliases>
 </configuration>

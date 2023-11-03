@@ -13,13 +13,13 @@ public class BoardVO {
 	private int hit ;
 	private String reip;
 	private String bdate;
-	private String imgn ;
-	private String vidn ;
+	private String imgn ; // 이미지 파일 이름
+	private String vidn ; // 영상 파일 이름
 	
 	// view data
-	private List<MultipartFile> mflist; // img list
-	private MultipartFile mfile; // video
-	private String[] imglist ;
+	private List<MultipartFile> mflist; // 이미지 파일 리스트
+	private MultipartFile mfile; // 영상 파일
+	private String[] imglist ; //이미지 파일 배열
 	private int cnt ;
 	
 	public int getNum() {

@@ -49,8 +49,10 @@ public class BoardController {
 		return "redirect:boardList";
 	}
 
+	
 	public String upload(String pathType, String r_path, MultipartFile mf) {
-
+		// pathType : 파일 형식(이미지/영상)
+		
 		String oriFn = mf.getOriginalFilename();
 		StringBuffer path = new StringBuffer();
 		path.append(r_path).append(pathType).append("\\");
@@ -152,15 +154,15 @@ public class BoardController {
 	public String boardEdit(BoardVO vo, String[] deletelist, HttpServletRequest request) {
 		String r_path = request.getSession().getServletContext().getRealPath("/");
 
-		// 기존에 있던 이미지 정보를 받아옵니다.
+		// 기존에 있던 이미지 정보를 받아오기
 		BoardVO oldVO = dao.boardDetail(vo.getNum());
 		String[] oldImgList = oldVO.getImglist();
 		String oldVidn = oldVO.getVidn();
 		
-		// 받아온 이미지 정보를 배열에 저장하고 리스트로 만듭니다.					
+		// 받아온 이미지 정보를 배열에 저장하고 리스트로 만들기					
 		List<String> imgList = new ArrayList<String>(Arrays.asList(oldImgList));
 		
-		// deletelist는 checkbox에서 선택한 이미지 리스트.
+		// deletelist : checkbox에서 선택한 이미지 리스트
 		if (deletelist != null) {
 			for (int i = 0; i < deletelist.length; i++) {
 				for (int j = 0; j < imgList.size(); j++) {
@@ -170,10 +172,10 @@ public class BoardController {
 				}
 			}
 		}
-		// 남은 이미지 파일과 새로 추가된 이미지를 위한 배열 생성.
+		// 남은 이미지 파일에 대한 배열 생성
 		String[] finalImgList = imgList.toArray(String[]::new);
 		
-		// 데이터베이스에 넣을 이미지이름 조합
+		// 남은 이미지 파일과 새로 추가된 이미지 파일을 합쳐서 이미지 리스트 조합
 		String newImgn = uploadImage(vo, r_path);	
 		for (String e : finalImgList) {
 			newImgn += e + ";";

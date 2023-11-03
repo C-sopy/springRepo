@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				
-				
+				삭제할 이미지 선택
 				<c:forEach var="e" items="${vo.imglist}">
 					<div>
 						<input type="checkbox" id="img" name="deletelist" value="${e}" />
@@ -50,7 +50,7 @@
 					</div>
 				</c:forEach>
 				<div class="form-group">
-					<label for="image">이미지</label>
+					<label for="image">이미지 </label>
 					<div class="col-sm-10">
 						<input type="file" accept="image/*" class="form-control"
 							id="mflist" name="mflist" multiple="multiple">
